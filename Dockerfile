@@ -4,16 +4,16 @@ WORKDIR /app
 
 # Download dependencies separately so source changes can reuse this layer.
 COPY pom.xml .
-RUN mvn -B dependency:go-offline
+RUN mvn -B dependency:go-offline || true
 
 COPY src ./src
-RUN mvn -B -DskipTests clean package
+RUN mvn -B clean package -DskipTests
 
 FROM eclipse-temurin:8-jre
 
 WORKDIR /app
 
-COPY --from=build /app/target/pharmacy-management-system-1.0.0.jar app.jar
+COPY --from=build /app/target/pharmacy-management-system-*.jar app.jar
 
 RUN mkdir -p /app/uploads && chown 10001:10001 /app/uploads
 

@@ -1,10 +1,11 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
+    "builder": "NIXPACKS",
+    "buildCommand": "mvn -B clean package -DskipTests"
   },
   "deploy": {
+    "startCommand": "java -jar target/pharmacy-management-system-1.0.0.jar",
     "healthcheckPath": "/api/categories",
     "healthcheckTimeout": 300
   }
